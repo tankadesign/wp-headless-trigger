@@ -1,3 +1,9 @@
+# Added features
+I've added a CRON setting so the deploy webhook will fire during a CRON interval instead of every time you save a post. Setting the CRON interval to 0 will make the webhook fire immediately. If using the CRON interval, be sure to set `define('DISABLE_WP_CRON', 'true');` in *wp-config.php* and hit wp-cron.php every minute via crontab. You can use either Crontab, or if using something like Plesk setup a scheduled task. The task should run every minute (`* * * * *`) and hit the URL to the cron script over cURL. In Crontab it will look like this:
+`* * * * * curl https://example.com/wp-cron.php?doing_wp_cron > /dev/null 2>&1`
+
+----
+
 # WP Headless Trigger
 
 This plugin was built to make it easier for developers to use WordPress as a headless CMS.
@@ -20,3 +26,4 @@ Next you have to install and activate the plugin within the wordpress admin. Onc
 <p align="left">
   <img src="https://cl.ly/e13c24a47adb/screenshot.png" alt="Settings page in WordPress admin">
 </p>
+

@@ -7,8 +7,10 @@ function wp_headless_trigger_options_page() {
 
     $last_trigger = get_option( 'wp_headless_trigger_last_trigger' );
     if ( ! empty( $last_trigger ) ) {
+        $timezone = wp_timezone(); // requires WP 5.3+
+        date_default_timezone_set($timezone->getName());
         echo esc_html__( 'Latest trigger: ', 'wp-headless-trigger' );
-        echo '<strong>' . date( 'l jS \of F Y h:i:s A', $last_trigger ) . '</strong>';
+        echo '<strong>' . date('l jS \of F Y h:i:s A', $last_trigger) . '</strong>';
     }
 
     echo '<form action="options.php" method="post">';
@@ -24,4 +26,12 @@ function wp_headless_trigger_webhook_url_render() {
     value="' . $options["wp_headless_trigger_webhook_url"] . '" class="regular-text code" placeholder="https://api.zeit.co/v1/integrations/deploy/QmV1259BpLx">';
 
     echo '<p class="description">' . esc_html__( 'The URL provided by your hosting company for a custom webhook', 'wp-headless-trigger' ) . '</p><br>';
+}
+
+function wp_headless_trigger_crontime_render() {
+    $options = get_option( 'wp_headless_trigger_settings' );
+    echo '<input type="number" name="wp_headless_trigger_settings[wp_headless_trigger_crontime]"
+    value="' . $options["wp_headless_trigger_crontime"] . '" class="all-options" placeholder="5">';
+
+    echo '<p class="description">' . esc_html__( 'Time (in minutes) to run the webhook', 'wp-headless-trigger' ) . '</p><br>';
 }
